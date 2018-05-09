@@ -33,6 +33,30 @@ func readLineString(r io.Reader, bom binary.ByteOrder) (orb.LineString, error) {
 	return result, nil
 }
 
+func readLineStringZM(r io.Reader, bom binary.ByteOrder) (orb.LineString, error) {
+	var num uint32
+	if err := binary.Read(r, bom, &num); err != nil {
+		return nil, err
+	}
+
+	if num > maxPointsAlloc {
+		// invalid data can come in here and allocate tons of memory.
+		num = maxPointsAlloc
+	}
+
+	result := make(orb.LineString, 0, num)
+	for i := 0; i < int(num); i++ {
+		p, err := readPointZM(r, bom)
+		if err != nil {
+			return nil, err
+		}
+
+		result = append(result, p)
+	}
+
+	return result, nil
+}
+
 func (e *Encoder) writeLineString(ls orb.LineString) error {
 	e.order.PutUint32(e.buf, lineStringType)
 	e.order.PutUint32(e.buf[4:], uint32(len(ls)))

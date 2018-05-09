@@ -23,6 +23,30 @@ func readPoint(r io.Reader, bom binary.ByteOrder) (orb.Point, error) {
 	return p, nil
 }
 
+// TODO: change to return PointZM
+func readPointZM(r io.Reader, bom binary.ByteOrder) (orb.Point, error) {
+	var p orb.Point
+	var trash float64
+
+	if err := binary.Read(r, bom, &p[0]); err != nil {
+		return orb.Point{}, err
+	}
+
+	if err := binary.Read(r, bom, &p[1]); err != nil {
+		return orb.Point{}, err
+	}
+
+	if err := binary.Read(r, bom, &trash); err != nil {
+		return orb.Point{}, err
+	}
+
+	if err := binary.Read(r, bom, &trash); err != nil {
+		return orb.Point{}, err
+	}
+
+	return p, nil
+}
+
 func (e *Encoder) writePoint(p orb.Point) error {
 	e.order.PutUint32(e.buf, pointType)
 	_, err := e.w.Write(e.buf[:4])

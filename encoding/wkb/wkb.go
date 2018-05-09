@@ -18,6 +18,7 @@ const (
 	multiLineStringType    uint32 = 5
 	multiPolygonType       uint32 = 6
 	geometryCollectionType uint32 = 7
+	lineStringZMType       uint32 = 3002
 )
 
 const (
@@ -177,6 +178,8 @@ func (d *Decoder) Decode() (orb.Geometry, error) {
 		return readMultiPolygon(d.r, byteOrder)
 	case geometryCollectionType:
 		return readCollection(d.r, byteOrder)
+	case lineStringZMType:
+		return readLineStringZM(d.r, byteOrder)
 	}
 
 	return nil, ErrUnsupportedGeometry
@@ -189,6 +192,7 @@ func readByteOrderType(r io.Reader) (binary.ByteOrder, uint32, error) {
 	if _, err := r.Read(bom); err != nil {
 		return nil, 0, err
 	}
+
 
 	var byteOrder binary.ByteOrder
 	if bom[0] == 0 {
