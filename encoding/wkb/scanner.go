@@ -5,7 +5,7 @@ import (
 	"database/sql/driver"
 	"errors"
 
-	"github.com/paulmach/orb"
+	"github.com/lozy219/orb"
 )
 
 var (

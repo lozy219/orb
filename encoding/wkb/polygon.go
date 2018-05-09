@@ -6,7 +6,7 @@ import (
 	"io"
 	"math"
 
-	"github.com/paulmach/orb"
+	"github.com/lozy219/orb"
 )
 
 func readPolygon(r io.Reader, bom binary.ByteOrder) (orb.Polygon, error) {

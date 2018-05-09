@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/paulmach/orb"
+	"github.com/lozy219/orb"
 )
 
 func TestScanNil(t *testing.T) {
