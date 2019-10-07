@@ -21,6 +21,7 @@ var (
 	_ Geometry = Polygon{}
 	_ Geometry = MultiPolygon{}
 	_ Geometry = Bound{}
+	_ Geometry = LineStringZM{}
 
 	_ Geometry = Collection{}
 )
@@ -28,6 +29,7 @@ var (
 func (p Point) private()             {}
 func (mp MultiPoint) private()       {}
 func (ls LineString) private()       {}
+func (lszm LineStringZM) private()   {}
 func (mls MultiLineString) private() {}
 func (r Ring) private()              {}
 func (p Polygon) private()           {}
@@ -43,6 +45,7 @@ var AllGeometries = []Geometry{
 	Point{},
 	MultiPoint{},
 	LineString{},
+	LineStringZM{},
 	MultiLineString{},
 	Ring{},
 	Polygon{},
@@ -53,6 +56,7 @@ var AllGeometries = []Geometry{
 	// nil values
 	MultiPoint(nil),
 	LineString(nil),
+	LineStringZM(nil),
 	MultiLineString(nil),
 	Ring(nil),
 	Polygon(nil),

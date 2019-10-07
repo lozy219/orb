@@ -86,6 +86,14 @@ func (s *GeometryScanner) Scan(d interface{}) error {
 
 		*g = p
 		return nil
+	case *orb.LineStringZM:
+		p, err := scanLineStringZM(data)
+		if err != nil {
+			return err
+		}
+
+		*g = p
+		return nil
 	case *orb.MultiLineString:
 		p, err := scanMultiLineString(data)
 		if err != nil {
@@ -190,6 +198,20 @@ func scanLineString(data []byte) (orb.LineString, error) {
 		if len(p) == 1 {
 			return p[0], nil
 		}
+	}
+
+	return nil, ErrIncorrectGeometry
+}
+
+func scanLineStringZM(data []byte) (orb.LineStringZM, error) {
+	m, err := Unmarshal(data)
+	if err != nil {
+		return nil, err
+	}
+
+	switch p := m.(type) {
+	case orb.LineStringZM:
+		return p, nil
 	}
 
 	return nil, ErrIncorrectGeometry
